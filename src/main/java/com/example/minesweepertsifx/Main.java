@@ -55,6 +55,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
 
+        /*
         Scanner input = new Scanner(System.in) ;
 
         MinesweeperGrid minesweeperGrid = new MinesweeperGrid(0, 0, 0) ;
@@ -133,5 +134,7 @@ public class Main extends Application {
                 stillPlaying = false ;
             }
         }
+        */
     }
+
 }

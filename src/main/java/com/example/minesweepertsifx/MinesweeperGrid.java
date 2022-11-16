@@ -53,6 +53,7 @@ public class MinesweeperGrid {
             if (grid[newMineRow][newMineCol].isMine == false) {
                 grid[newMineRow][newMineCol].isMine = true;
                 ++minesAdded;
+                System.out.println("mine @ " + newMineRow + " " + newMineCol);
             }
         }
         grid[exclRow][exclCol].isMine = false ;
@@ -83,8 +84,6 @@ public class MinesweeperGrid {
             }
             System.out.println();
         }
-        // Print footer
-        System.out.println("Use \"row col r\" to reveal, use \"row col f\" to plant a flag.");
 
     }
     public void printSolution () {
@@ -129,12 +128,14 @@ public class MinesweeperGrid {
             if (populatedMines == false) {
                 this.populateMinesExcluding(row, col);
                 populatedMines = true ;
+                System.out.println("planted mines");
             }
 
             // Check if it is a mine
             if (this.grid[row][col].isMine == true) {
                 this.grid[row][col].flag = 'Q' ;
                 gameLost = true ;
+                System.out.println("Boom");
             } else {
                 int adjMines = this.countAdjacentMines(row, col) ;
                 if (adjMines == 0) { this.grid[row][col].flag = ' ' ; }
@@ -181,7 +182,7 @@ public class MinesweeperGrid {
         // iterate over the rows
 
         boolean gameWin = true ;
-
+        System.out.println("checkwin");
         for (int row = 0 ; row < rows ; ++row) {
             // Iterate over all columns
             for (int col = 0 ; col < cols ; ++col) {
@@ -189,9 +190,24 @@ public class MinesweeperGrid {
                 if (this.grid[row][col].flag == '.' && this.grid[row][col].isMine == false) {gameWin = false ;}
             }
         }
+        System.out.println(gameWin);
         return gameWin ;
     }
+    public boolean checkLoseCondition() {
+        // if every safe square has been tested then you win
+        // iterate over the rows
 
+        boolean gameLose = false ;
+
+        for (int row = 0 ; row < rows ; ++row) {
+            // Iterate over all columns
+            for (int col = 0 ; col < cols ; ++col) {
+                // check condition
+                if (this.grid[row][col].flag == 'Q') {gameLose = true ;}
+            }
+        }
+        return gameLose ;
+    }
     public MinesweeperSquare[][] getGrid() {
         return grid;
     }
