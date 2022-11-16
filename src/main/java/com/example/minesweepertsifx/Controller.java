@@ -1,6 +1,8 @@
 package com.example.minesweepertsifx;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -39,7 +41,6 @@ public class Controller {
             rows = Integer.parseInt(rowsField.getText());
             cols = Integer.parseInt(colsField.getText());
             mines = Integer.parseInt(minesField.getText());
-            System.out.println(rows + " " + cols + " " + mines);
         }
         catch (Exception exception) {
             rows = 10000 ;
@@ -61,10 +62,15 @@ public class Controller {
                     int btnNumber = this.rows * curRow + curCol;
                     String btnString = "" + minesweeperGrid.getGrid()[curRow][curCol].getFlag() ;
                     Button button = new Button(btnString);
+                    button.setId("" + btnNumber);
+                    button.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent btnEvent) {
+                            System.out.println(button.getId()) ;
+                        }
+                    });
 
                     buttonGrid.add(button, curRow, curCol);
-                    System.out.println(curRow + " " + curCol);
-
                 }
             }
             stage.setScene(scene);
@@ -73,6 +79,8 @@ public class Controller {
 
 
     }
+    public void gridButtonClick(ActionEvent e) {
 
+    }
 
 }
