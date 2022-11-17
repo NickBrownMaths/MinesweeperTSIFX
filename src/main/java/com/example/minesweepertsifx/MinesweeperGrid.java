@@ -15,16 +15,16 @@ public class MinesweeperGrid {
     MinesweeperSquare[][] grid;
 
     // Constructor
-    public MinesweeperGrid (int r, int c, int m) {
+    public MinesweeperGrid (int c, int r, int m) {
         this.rows = r;
         this.cols = c;
         this.mines = m;
-        grid = new MinesweeperSquare[this.rows][this.cols] ;
+        grid = new MinesweeperSquare[this.cols][this.rows] ;
         // Iterate over all rows
         for (int row = 0 ; row < rows ; ++row) {
             // Iterate over all columns
             for (int col = 0 ; col < cols ; ++col) {
-                grid[row][col] = new MinesweeperSquare() ;
+                grid[col][row] = new MinesweeperSquare() ;
             }
         }
     }
@@ -35,27 +35,27 @@ public class MinesweeperGrid {
         while (minesAdded < this.mines) {
             int newMineRow = (int) Math.round(Math.random() * (this.rows - 1));
             int newMineCol = (int) Math.round(Math.random() * (this.cols - 1));
-            if (grid[newMineRow][newMineCol].isMine == false) {
-                grid[newMineRow][newMineCol].isMine = true;
+            if (grid[newMineCol][newMineRow].isMine == false) {
+                grid[newMineCol][newMineRow].isMine = true;
                 ++minesAdded;
             }
         }
     }
-    public void populateMinesExcluding(int exclRow, int exclCol) {
+    public void populateMinesExcluding(int exclCol, int exclRow) {
         int minesAdded = 0 ;
         int cntr = 0 ;
-        grid[exclRow][exclCol].isMine = true ;
+        grid[exclCol][exclRow].isMine = true ;
 
         while (minesAdded < this.mines) {
             cntr++;
             int newMineRow = (int) Math.round(Math.random() * (this.rows - 1));
             int newMineCol = (int) Math.round(Math.random() * (this.cols - 1));
-            if (grid[newMineRow][newMineCol].isMine == false) {
-                grid[newMineRow][newMineCol].isMine = true;
+            if (grid[newMineCol][newMineRow].isMine == false) {
+                grid[newMineCol][newMineRow].isMine = true;
                 ++minesAdded;
             }
         }
-        grid[exclRow][exclCol].isMine = false ;
+        grid[exclCol][exclRow].isMine = false ;
     }
     public void printGrid () {
         // Print Header
@@ -79,7 +79,7 @@ public class MinesweeperGrid {
 
             // Iterate over all columns
             for (int col = 0 ; col < cols ; ++col) {
-                System.out.print(" " + grid[row][col].flag + " ");
+                System.out.print(" " + grid[col][row].flag + " ");
             }
             System.out.println();
         }
@@ -104,20 +104,20 @@ public class MinesweeperGrid {
 
             // Iterate over all columns
             for (int col = 0 ; col < cols ; ++col) {
-                if (grid[row][col].isMine == true) { System.out.print(" Q "); }
+                if (grid[col][row].isMine == true) { System.out.print(" Q "); }
                 else { System.out.print("   "); }
             }
             System.out.println();
         }
     }
-    public void click(int row, int col, boolean plantFlag) {
+    public void click(int col, int row, boolean plantFlag) {
         // Are we simply marking a flag?
         if (plantFlag == true) {
-            if (this.grid[row][col].flag == 'P') {
-                this.grid[row][col].flag = '.' ;
+            if (this.grid[col][row].flag == 'P') {
+                this.grid[col][row].flag = '.' ;
                 plantedFlags--;
-            } else if (this.grid[row][col].flag == '.') {
-                this.grid[row][col].flag = 'P' ;
+            } else if (this.grid[col][row].flag == '.') {
+                this.grid[col][row].flag = 'P' ;
                 plantedFlags++;
             }
         }
@@ -125,18 +125,18 @@ public class MinesweeperGrid {
         else {
             // if it's the first click, populate the mines
             if (populatedMines == false) {
-                this.populateMinesExcluding(row, col);
+                this.populateMinesExcluding(col, row);
                 populatedMines = true ;
             }
 
             // Check if it is a mine
-            if (this.grid[row][col].isMine == true) {
-                this.grid[row][col].flag = 'Q' ;
+            if (this.grid[col][row].isMine == true) {
+                this.grid[col][row].flag = 'Q' ;
                 gameLost = true ;
             } else {
-                int adjMines = this.countAdjacentMines(row, col) ;
-                if (adjMines == 0) { this.grid[row][col].flag = ' ' ; }
-                else {this.grid[row][col].flag = (char)(adjMines + '0');}
+                int adjMines = this.countAdjacentMines(col, row) ;
+                if (adjMines == 0) { this.grid[col][row].flag = ' ' ; }
+                else {this.grid[col][row].flag = (char)(adjMines + '0');}
                 if (adjMines == 0) {
                     // Click all adjacent
                     int startRow = Math.max(0, row-1);
@@ -148,8 +148,8 @@ public class MinesweeperGrid {
                     for (int curRow = startRow ; curRow <= endRow ; ++curRow) {
                         // Iterate over all columns
                         for (int curCol = startCol ; curCol <= endCol ; ++curCol) {
-                            if (grid[curRow][curCol].flag == '.') {
-                                this.click(curRow, curCol, false);
+                            if (grid[curCol][curRow].flag == '.') {
+                                this.click(curCol, curRow, false);
                             }
                         }
                     }
@@ -157,7 +157,7 @@ public class MinesweeperGrid {
             }
         }
     }
-    public int countAdjacentMines(int row, int col) {
+    public int countAdjacentMines(int col, int row) {
         int numMines = 0;
         int startRow = Math.max(0, row-1);
         int   endRow = Math.min(this.rows-1, row+1);
@@ -168,7 +168,7 @@ public class MinesweeperGrid {
         for (int curRow = startRow ; curRow <= endRow ; ++curRow) {
             // Iterate over all columns
             for (int curCol = startCol ; curCol <= endCol ; ++curCol) {
-                if (grid[curRow][curCol].isMine == true) { numMines++; }
+                if (grid[curCol][curRow].isMine == true) { numMines++; }
             }
         }
         return numMines;
@@ -183,7 +183,7 @@ public class MinesweeperGrid {
             // Iterate over all columns
             for (int col = 0 ; col < cols ; ++col) {
                 // check condition
-                if (this.grid[row][col].flag == '.' && this.grid[row][col].isMine == false) {gameWin = false ;}
+                if (this.grid[col][row].flag == '.' && this.grid[col][row].isMine == false) {gameWin = false ;}
             }
         }
         return gameWin ;
@@ -198,7 +198,7 @@ public class MinesweeperGrid {
             // Iterate over all columns
             for (int col = 0 ; col < cols ; ++col) {
                 // check condition
-                if (this.grid[row][col].flag == 'Q') {gameLose = true ;}
+                if (this.grid[col][row].flag == 'Q') {gameLose = true ;}
             }
         }
         return gameLose ;
