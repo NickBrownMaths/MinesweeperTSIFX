@@ -22,8 +22,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Rows (max: 40)" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Label text="Columns (max: 40)" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Label text="Rows (max: 30)" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label text="Columns (max: 30)" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Label text="Mines" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
             <TextField fx:id="rowsField" GridPane.columnIndex="1" />
             <TextField fx:id="colsField" GridPane.columnIndex="1" GridPane.rowIndex="1" />

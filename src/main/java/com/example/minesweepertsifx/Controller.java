@@ -1,7 +1,6 @@
 package com.example.minesweepertsifx;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,15 +15,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
 public class Controller {
 
     private Stage stage ;
     private Scene scene ;
-    private Parent root ;
 
-    boolean mainMenu = true ;
     int rows = 10000;
     int cols = 10000;
     int mines = 10000;
@@ -51,14 +47,15 @@ public class Controller {
             cols = rows ;
             mines = rows ;
         }
-        if (rows < 1 || cols < 1 || rows > 40 || cols > 40 || mines >= rows * cols) {
+        if (rows < 1 || cols < 1 || rows > 30 || cols > 30 || mines >= rows * cols) {
             mainMenuErrorMessage.setText("Please enter valid options");
         } else {
-
-            MinesweeperGrid minesweeperGrid = new MinesweeperGrid(rows, cols, mines) ;
+            minesweeperGrid = new MinesweeperGrid(rows, cols, mines) ;
             GridPane buttonGrid = new GridPane();
+            Button[][] referenceGrid ;
             stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             scene = new Scene(buttonGrid) ;
+            referenceGrid = new Button[this.rows][this.cols] ;
 
             String btnString;
             for (int curRow = 0; curRow < this.rows; ++curRow) {
@@ -67,21 +64,37 @@ public class Controller {
                     btnString = "" + minesweeperGrid.getGrid()[curRow][curCol].getFlag() ;
                     Button button = new Button(btnString);
                     button.setId("" + btnNumber);
-                    button.setMinHeight(35);
-                    button.setMinWidth(35);
-                    button.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent btnEvent) {
-                            //System.out.println(button.getId()) ;
+                    button.setMinHeight(30);
+                    button.setMinWidth(30);
+
+                    button.setOnMouseClicked(event -> {
+                        if (event.getButton() == MouseButton.SECONDARY) {
                             int id = Integer.parseInt(button.getId());
-                            int thisRow = id % rows;
-                            int thisCol = id / rows;
+                            int thisCol = id % rows;
+                            int thisRow = id / rows;
+                            minesweeperGrid.click(thisRow, thisCol, true);
+                            minesweeperGrid.printGrid();
+                            button.setText("" + minesweeperGrid.getGrid()[thisRow][thisCol].getFlag());
+                        }
+                        else if (event.getButton() == MouseButton.PRIMARY) {
+                            int id = Integer.parseInt(button.getId());
+                            int thisCol = id % rows;
+                            int thisRow = id / rows;
                             minesweeperGrid.click(thisRow, thisCol, false);
                             minesweeperGrid.printGrid();
-
                             button.setText("" + minesweeperGrid.getGrid()[thisRow][thisCol].getFlag());
 
-                            System.out.println("check win lose");
+                            // Update all the other buttons
+                            buttonGrid.getChildren().clear();
+                            for (int curRow2 = 0; curRow2 < minesweeperGrid.rows; ++curRow2) {
+                                for (int curCol2 = 0; curCol2 < minesweeperGrid.cols; ++curCol2) {
+                                    Button replaceButton = referenceGrid[curRow2][curCol2];
+                                    replaceButton.setText("" + minesweeperGrid.getGrid()[curRow2][curCol2].getFlag());
+                                    referenceGrid[curRow2][curCol2] = replaceButton;
+                                    buttonGrid.add(replaceButton, curRow2, curCol2);
+                                }
+                            }
+
                             if (minesweeperGrid.checkWinCondition() == true) {
                                 try {
                                     Parent root2 = FXMLLoader.load(getClass().getResource("win.fxml"));
@@ -91,9 +104,9 @@ public class Controller {
                                     stage.setResizable(false);
 
                                     stage.setScene(new Scene(root2));
-                                    stage.show() ;
+                                    stage.show();
+                                } catch (Exception exception) {
                                 }
-                                catch (Exception exception) {}
                             }
                             if (minesweeperGrid.checkLoseCondition() == true) {
                                 try {
@@ -104,17 +117,17 @@ public class Controller {
                                     stage.setResizable(false);
 
                                     stage.setScene(new Scene(root3));
-                                    stage.show() ;
+                                    stage.show();
+                                } catch (Exception exception) {
                                 }
-                                catch (Exception exception) {}
                             }
-
-
                         }
                     });
 
-                    btnString = "" + minesweeperGrid.getGrid()[curRow][curCol].getFlag() ;
+                    referenceGrid[curRow][curCol] = button;
                     buttonGrid.add(button, curRow, curCol);
+                    //referenceGrid[curCol][curRow] = button;
+                    //buttonGrid.add(button, curCol, curRow);
                 }
             }
             stage.setScene(scene);
