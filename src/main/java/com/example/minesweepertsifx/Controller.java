@@ -12,6 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 
@@ -61,11 +64,9 @@ public class Controller {
                     btnString = "" + minesweeperGrid.getGrid()[curCol][curRow].getFlag() ;
                     Button button = new Button(btnString);
                     button.setId("" + btnNumber);
-
-                    button.setText("" + btnNumber);
-
                     button.setMinHeight(30);
                     button.setMinWidth(30);
+                    button.setFont(Font.font("Consolas", FontWeight.BOLD, 18));
 
                     button.setOnMouseClicked(event -> {
                         int id = Integer.parseInt(button.getId());
@@ -75,6 +76,9 @@ public class Controller {
                             minesweeperGrid.click(thisCol, thisRow, true);
                             minesweeperGrid.printGrid();
                             button.setText("" + minesweeperGrid.getGrid()[thisCol][thisRow].getFlag());
+                            char flg = minesweeperGrid.getGrid()[thisCol][thisRow].getFlag() ;
+                            if      (flg == 'P') {button.setTextFill(Color.ORANGE);}
+                            else if (flg == '.') {button.setTextFill(Color.BLACK);}
                         }
                         else if (event.getButton() == MouseButton.PRIMARY) {
                             minesweeperGrid.click(thisCol, thisRow, false);
@@ -89,6 +93,18 @@ public class Controller {
                                     replaceButton.setText("" + minesweeperGrid.getGrid()[curCol2][curRow2].getFlag());
                                     referenceGrid[curCol2][curRow2] = replaceButton;
                                     buttonGrid.add(replaceButton, curCol2, curRow2);
+
+                                    char flg = minesweeperGrid.getGrid()[curCol2][curRow2].getFlag() ;
+                                    if      (flg == '1') {replaceButton.setTextFill(Color.BLUE);}
+                                    else if (flg == '2') {replaceButton.setTextFill(Color.GREEN);}
+                                    else if (flg == '3') {replaceButton.setTextFill(Color.RED);}
+                                    else if (flg == '4') {replaceButton.setTextFill(Color.NAVY);}
+                                    else if (flg == '5') {replaceButton.setTextFill(Color.DARKRED);}
+                                    else if (flg == '6') {replaceButton.setTextFill(Color.TEAL);}
+                                    else if (flg == '7') {replaceButton.setTextFill(Color.BLACK);}
+                                    else if (flg == '8') {replaceButton.setTextFill(Color.DARKGRAY);}
+                                    else if (flg == 'P') {replaceButton.setTextFill(Color.ORANGE);}
+                                    else if (flg == '.') {replaceButton.setTextFill(Color.BLACK);}
                                 }
                             }
 
@@ -128,5 +144,18 @@ public class Controller {
             stage.setScene(scene);
             stage.show() ;
         }
+    }
+    public void playAgain(ActionEvent e) {
+        try {
+            stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+            Image icon = new Image("MSicon.png");
+            stage.getIcons().add(icon);
+            stage.setTitle("MinesweeperTSIFX");
+            stage.setResizable(false);
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (Exception exception) {}
     }
 }
