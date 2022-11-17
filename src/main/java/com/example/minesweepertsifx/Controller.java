@@ -27,11 +27,11 @@ public class Controller {
     MinesweeperGrid minesweeperGrid;
 
     @FXML
-    private TextField rowsField ;
+    private TextField rowsField = new TextField();
     @FXML
-    private TextField colsField ;
+    private TextField colsField = new TextField();
     @FXML
-    private TextField minesField ;
+    private TextField minesField = new TextField();
     @FXML
     private Label mainMenuErrorMessage = new Label("");
 
@@ -49,7 +49,8 @@ public class Controller {
         }
         if (rows < 1 || cols < 1 || rows > 30 || cols > 30 || mines >= rows * cols) {
             mainMenuErrorMessage.setText("Please enter valid options");
-        } else {
+        }
+        else {
             minesweeperGrid = new MinesweeperGrid(cols, rows, mines) ;
             GridPane buttonGrid = new GridPane();
             Button[][] referenceGrid ;
@@ -155,7 +156,22 @@ public class Controller {
             stage.setResizable(false);
             stage.setScene(new Scene(root));
             stage.show();
+            //autofillTextfields(cols, rows, mines);
         }
-        catch (Exception exception) {}
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    private void autofillTextfields(int c, int r, int m) {
+        try {
+            rowsField.setText("" + r);
+            colsField.setText("" + c);
+            minesField.setText("" + m);
+            System.out.println("autofill no throw");
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }

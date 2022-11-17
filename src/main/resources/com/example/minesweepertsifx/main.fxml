@@ -25,9 +25,9 @@
             <Label text="Rows (max: 30)" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <Label text="Columns (max: 30)" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Label text="Mines" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <TextField fx:id="rowsField" GridPane.columnIndex="1" />
-            <TextField fx:id="colsField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="minesField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="rowsField" text="10" GridPane.columnIndex="1" />
+            <TextField fx:id="colsField" text="10" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="minesField" text="20" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Button layoutX="281.0" layoutY="266.0" mnemonicParsing="false" onAction="#attemptStartGame" text="Play" />
