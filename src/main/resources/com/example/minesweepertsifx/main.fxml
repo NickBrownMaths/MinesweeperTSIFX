@@ -11,10 +11,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minesweepertsifx.Controller">
    <children>
-      <GridPane layoutX="200.0" layoutY="155.0">
+      <GridPane layoutX="200.0" layoutY="155.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -25,9 +26,12 @@
             <Label text="Rows (max: 30)" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <Label text="Columns (max: 30)" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Label text="Mines" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <TextField fx:id="rowsField" text="10" GridPane.columnIndex="1" />
-            <TextField fx:id="colsField" text="10" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="minesField" text="20" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="rowsField" text="8" GridPane.columnIndex="1" />
+            <TextField fx:id="colsField" text="8" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="minesField" text="10" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#autofillTextfieldsHard" text="Hard" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Button mnemonicParsing="false" onAction="#autofillTextfieldsMid" text="Intermediate" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button mnemonicParsing="false" onAction="#autofillTextfieldsEasy" text="Easy" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
       <Button layoutX="281.0" layoutY="266.0" mnemonicParsing="false" onAction="#attemptStartGame" text="Play" />

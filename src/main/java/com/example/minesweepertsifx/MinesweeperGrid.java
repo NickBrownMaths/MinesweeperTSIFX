@@ -2,9 +2,9 @@ package com.example.minesweepertsifx;
 
 public class MinesweeperGrid {
 
-    int rows;
-    int cols;
-    int mines;
+    int rows = 10;
+    int cols = 10;
+    int mines = 10;
     int plantedFlags = 0 ;
     boolean gameLost = false ;
     boolean populatedMines = false ;
@@ -108,11 +108,11 @@ public class MinesweeperGrid {
     public void click(int col, int row, boolean plantFlag) {
         // Are we simply marking a flag?
         if (plantFlag == true) {
-            if (this.grid[col][row].flag == 'P') {
+            if (this.grid[col][row].flag == '@') {
                 this.grid[col][row].flag = '.' ;
                 plantedFlags--;
             } else if (this.grid[col][row].flag == '.') {
-                this.grid[col][row].flag = 'P' ;
+                this.grid[col][row].flag = '@' ;
                 plantedFlags++;
             }
         }
@@ -205,6 +205,20 @@ public class MinesweeperGrid {
     }
     public MinesweeperSquare[][] getGrid() {
         return grid;
+    }
+
+    public int getMines() {
+        return mines;
+    }
+
+    public int getPlantedFlags() {
+        return plantedFlags;
+    }
+    public int getRows() {
+        return rows;
+    }
+    public int getCols() {
+        return cols;
     }
 }
 

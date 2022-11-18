@@ -27,11 +27,11 @@ public class Controller {
     MinesweeperGrid minesweeperGrid;
 
     @FXML
-    private TextField rowsField = new TextField();
+    private TextField rowsField = new TextField("" + this.rows);
     @FXML
-    private TextField colsField = new TextField();
+    private TextField colsField = new TextField("" + this.cols);
     @FXML
-    private TextField minesField = new TextField();
+    private TextField minesField = new TextField("" + this.mines);
     @FXML
     private Label mainMenuErrorMessage = new Label("");
 
@@ -58,6 +58,25 @@ public class Controller {
             scene = new Scene(buttonGrid) ;
             referenceGrid = new Button[this.cols][this.rows] ;
 
+            // Create some text to show the game status
+            Label helpLabel0 = new Label(" Mines: ") ;
+            Label helpLabel1 = new Label("   " + minesweeperGrid.getMines()) ;
+            Label helpLabel2 = new Label(" Flags: ") ;
+            Label helpLabel3 = new Label("   " + minesweeperGrid.getPlantedFlags()) ;
+
+            // Align the labels
+            if      (minesweeperGrid.getMines() > 99) {helpLabel1.setText(" "   + minesweeperGrid.getMines()) ;}
+            else if (minesweeperGrid.getMines() >  9) {helpLabel1.setText("  "  + minesweeperGrid.getMines()) ;}
+            else                                      {helpLabel2.setText("   " + minesweeperGrid.getMines()) ;}
+            if      (minesweeperGrid.getPlantedFlags() > 99) {helpLabel3.setText(" "   + minesweeperGrid.getPlantedFlags()) ;}
+            else if (minesweeperGrid.getPlantedFlags() >  9) {helpLabel3.setText("  "  + minesweeperGrid.getPlantedFlags()) ;}
+            else                                             {helpLabel3.setText("   " + minesweeperGrid.getPlantedFlags()) ;}
+
+            helpLabel0.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
+            helpLabel1.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
+            helpLabel2.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
+            helpLabel3.setFont(Font.font("Consolas", FontWeight.BOLD, 20));
+
             String btnString;
             for (int curRow = 0; curRow < this.rows; ++curRow) {
                 for (int curCol = 0; curCol < this.cols; ++curCol) {
@@ -75,15 +94,20 @@ public class Controller {
                         int thisRow = id / cols;
                         if (event.getButton() == MouseButton.SECONDARY) {
                             minesweeperGrid.click(thisCol, thisRow, true);
-                            minesweeperGrid.printGrid();
                             button.setText("" + minesweeperGrid.getGrid()[thisCol][thisRow].getFlag());
+
+                            // Align the labels
+                            if      (minesweeperGrid.getPlantedFlags() > 99) {helpLabel3.setText(" "   + minesweeperGrid.getPlantedFlags()) ;}
+                            else if (minesweeperGrid.getPlantedFlags() >  9) {helpLabel3.setText("  "  + minesweeperGrid.getPlantedFlags()) ;}
+                            else                                             {helpLabel3.setText("   " + minesweeperGrid.getPlantedFlags()) ;}
+
                             char flg = minesweeperGrid.getGrid()[thisCol][thisRow].getFlag() ;
-                            if      (flg == 'P') {button.setTextFill(Color.ORANGE);}
+                            if      (flg == '@') {button.setTextFill(Color.ORANGE);}
                             else if (flg == '.') {button.setTextFill(Color.BLACK);}
                         }
                         else if (event.getButton() == MouseButton.PRIMARY) {
                             minesweeperGrid.click(thisCol, thisRow, false);
-                            minesweeperGrid.printGrid();
+                            //minesweeperGrid.printGrid();
                             button.setText("" + minesweeperGrid.getGrid()[thisCol][thisRow].getFlag());
 
                             // Update all the other buttons
@@ -104,10 +128,20 @@ public class Controller {
                                     else if (flg == '6') {replaceButton.setTextFill(Color.TEAL);}
                                     else if (flg == '7') {replaceButton.setTextFill(Color.BLACK);}
                                     else if (flg == '8') {replaceButton.setTextFill(Color.DARKGRAY);}
-                                    else if (flg == 'P') {replaceButton.setTextFill(Color.ORANGE);}
+                                    else if (flg == '@') {replaceButton.setTextFill(Color.ORANGE);}
                                     else if (flg == '.') {replaceButton.setTextFill(Color.BLACK);}
                                 }
                             }
+
+                            // Align the labels
+                            if      (minesweeperGrid.getPlantedFlags() > 99) {helpLabel3.setText(" "   + minesweeperGrid.getPlantedFlags()) ;}
+                            else if (minesweeperGrid.getPlantedFlags() >  9) {helpLabel3.setText("  "  + minesweeperGrid.getPlantedFlags()) ;}
+                            else                                             {helpLabel3.setText("   " + minesweeperGrid.getPlantedFlags()) ;}
+
+                            buttonGrid.add(helpLabel0, cols, 0);
+                            buttonGrid.add(helpLabel1, cols, 1);
+                            buttonGrid.add(helpLabel2, cols, 2);
+                            buttonGrid.add(helpLabel3, cols, 3);
 
                             if (minesweeperGrid.checkWinCondition() == true) {
                                 try {
@@ -142,6 +176,17 @@ public class Controller {
                     buttonGrid.add(button, curCol, curRow);
                 }
             }
+
+            // Align the labels
+            if      (minesweeperGrid.getPlantedFlags() > 99) {helpLabel3.setText(" "   + minesweeperGrid.getPlantedFlags()) ;}
+            else if (minesweeperGrid.getPlantedFlags() >  9) {helpLabel3.setText("  "  + minesweeperGrid.getPlantedFlags()) ;}
+            else                                             {helpLabel3.setText("   " + minesweeperGrid.getPlantedFlags()) ;}
+
+            buttonGrid.add(helpLabel0, cols, 0);
+            buttonGrid.add(helpLabel1, cols, 1);
+            buttonGrid.add(helpLabel2, cols, 2);
+            buttonGrid.add(helpLabel3, cols, 3);
+
             stage.setScene(scene);
             stage.show() ;
         }
@@ -155,22 +200,38 @@ public class Controller {
             stage.setTitle("MinesweeperTSIFX");
             stage.setResizable(false);
             stage.setScene(new Scene(root));
-            stage.show();
+
             //autofillTextfields(cols, rows, mines);
+            stage.show();
         }
         catch (Exception exception) {
             exception.printStackTrace();
         }
     }
-
-    private void autofillTextfields(int c, int r, int m) {
+    public void autofillTextfieldsEasy(ActionEvent e) {
         try {
-            rowsField.setText("" + r);
-            colsField.setText("" + c);
-            minesField.setText("" + m);
-            System.out.println("autofill no throw");
+            rowsField.setText("8");
+            colsField.setText("8");
+            minesField.setText("10");
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
-        catch (Exception exception) {
+    }
+    public void autofillTextfieldsMid(ActionEvent e) {
+        try {
+            rowsField.setText("16");
+            colsField.setText("16");
+            minesField.setText("40");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+    public void autofillTextfieldsHard(ActionEvent e) {
+        try {
+            rowsField.setText("24");
+            colsField.setText("30");
+            minesField.setText("99");
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
