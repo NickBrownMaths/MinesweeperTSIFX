@@ -67,7 +67,7 @@ public class Controller {
             // Align the labels
             if      (minesweeperGrid.getMines() > 99) {helpLabel1.setText(" "   + minesweeperGrid.getMines()) ;}
             else if (minesweeperGrid.getMines() >  9) {helpLabel1.setText("  "  + minesweeperGrid.getMines()) ;}
-            else                                      {helpLabel2.setText("   " + minesweeperGrid.getMines()) ;}
+            else                                      {helpLabel1.setText("   " + minesweeperGrid.getMines()) ;}
             if      (minesweeperGrid.getPlantedFlags() > 99) {helpLabel3.setText(" "   + minesweeperGrid.getPlantedFlags()) ;}
             else if (minesweeperGrid.getPlantedFlags() >  9) {helpLabel3.setText("  "  + minesweeperGrid.getPlantedFlags()) ;}
             else                                             {helpLabel3.setText("   " + minesweeperGrid.getPlantedFlags()) ;}
@@ -102,7 +102,7 @@ public class Controller {
                             else                                             {helpLabel3.setText("   " + minesweeperGrid.getPlantedFlags()) ;}
 
                             char flg = minesweeperGrid.getGrid()[thisCol][thisRow].getFlag() ;
-                            if      (flg == '@') {button.setTextFill(Color.ORANGE);}
+                            if      (flg == '@') {button.setTextFill(Color.DARKORANGE);}
                             else if (flg == '.') {button.setTextFill(Color.BLACK);}
                         }
                         else if (event.getButton() == MouseButton.PRIMARY) {
@@ -128,7 +128,7 @@ public class Controller {
                                     else if (flg == '6') {replaceButton.setTextFill(Color.TEAL);}
                                     else if (flg == '7') {replaceButton.setTextFill(Color.BLACK);}
                                     else if (flg == '8') {replaceButton.setTextFill(Color.DARKGRAY);}
-                                    else if (flg == '@') {replaceButton.setTextFill(Color.ORANGE);}
+                                    else if (flg == '@') {replaceButton.setTextFill(Color.DARKORANGE);}
                                     else if (flg == '.') {replaceButton.setTextFill(Color.BLACK);}
                                 }
                             }

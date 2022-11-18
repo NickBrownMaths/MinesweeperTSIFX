@@ -136,14 +136,15 @@ public class MinesweeperGrid {
                     } else {
                         this.grid[col][row].flag = (char) (adjMines + '0');
                     }
+                    // If adjacent mines are 0
                     if (adjMines == 0) {
-                        // Click all adjacent
+                        // Click all nearby rows
                         int startRow = Math.max(0, row - 1);
                         int endRow = Math.min(this.rows - 1, row + 1);
                         int startCol = Math.max(0, col - 1);
                         int endCol = Math.min(this.cols - 1, col + 1);
 
-                        // Iterate over all columns
+                        // Iterate over nearby cols
                         for (int curRow = startRow; curRow <= endRow; ++curRow) {
                             // Iterate over all columns
                             for (int curCol = startCol; curCol <= endCol; ++curCol) {
@@ -164,9 +165,9 @@ public class MinesweeperGrid {
         int startCol = Math.max(0, col-1);
         int   endCol = Math.min(this.cols-1, col+1);
 
-        // Iterate over all columns
+        // Iterate over all nearby columns
         for (int curRow = startRow ; curRow <= endRow ; ++curRow) {
-            // Iterate over all columns
+            // Iterate over all nearby columns
             for (int curCol = startCol ; curCol <= endCol ; ++curCol) {
                 if (grid[curCol][curRow].isMine == true) { numMines++; }
             }
@@ -206,11 +207,9 @@ public class MinesweeperGrid {
     public MinesweeperSquare[][] getGrid() {
         return grid;
     }
-
     public int getMines() {
         return mines;
     }
-
     public int getPlantedFlags() {
         return plantedFlags;
     }
